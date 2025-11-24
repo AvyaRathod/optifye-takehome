@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consumer-service
+  labels:
+    app: consumer-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: consumer-service
+  template:
+    metadata:
+      labels:
+        app: consumer-service
+    spec:
+      containers:
+        - name: consumer-service
+          image: 242039787067.dkr.ecr.ap-south-2.amazonaws.com/consumer:v4
+          imagePullPolicy: Always
+          env:
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              value: "b-1.optifyetakehomemsk.ybb2oh.c4.kafka.ap-south-2.amazonaws.com:9094,b-2.optifyetakehomemsk.ybb2oh.c4.kafka.ap-south-2.amazonaws.com:9094"
+            - name: KAFKA_TOPIC
+              value: "video-stream-1"
+            - name: KAFKA_GROUP_ID
+              value: "video-consumer-group"
+            - name: S3_BUCKET_NAME
+              value: "optifye-takehome-annotated-frames"
+            - name: INFERENCE_URL
+              value: "http://inference-service:8000/infer"
+            - name: AWS_REGION
+              value: ap-south-2
+            - name: AWS_DEFAULT_REGION
+              value: ap-south-2

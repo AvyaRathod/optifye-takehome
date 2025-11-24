@@ -1,0 +1,6 @@
+kafka-python
+requests
+boto3
+opencv-python
+pillow
+python-dotenv

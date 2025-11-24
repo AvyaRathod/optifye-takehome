@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: producer-service
+  labels:
+    app: producer-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: producer-service
+  template:
+    metadata:
+      labels:
+        app: producer-service
+    spec:
+      containers:
+        - name: producer
+          image: 242039787067.dkr.ecr.ap-south-2.amazonaws.com/producer:v1
+          imagePullPolicy: Always
+          env:
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              value: "b-1.optifyetakehomemsk.ybb2oh.c4.kafka.ap-south-2.amazonaws.com:9094,b-2.optifyetakehomemsk.ybb2oh.c4.kafka.ap-south-2.amazonaws.com:9094"
+            - name: KAFKA_TOPIC
+              value: "video-stream-1"
+            - name: RTSP_URL
+              value: "rtsp://10.50.1.18:8554/media/video"
+            - name: AWS_REGION
+              value: ap-south-2
+            - name: AWS_DEFAULT_REGION
+              value: ap-south-2
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "128Mi"
+            limits:
+              cpu: "200m"
+              memory: "256Mi"
